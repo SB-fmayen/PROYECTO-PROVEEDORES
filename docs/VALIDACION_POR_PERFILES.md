@@ -10,7 +10,7 @@ Ejecutar localmente `database/sqlserver/validation/030_app_permissions.sql` para
 
 ## Iniciar y comprobar dependencias
 
-En dos terminales de la raíz: `npm.cmd run dev:api` y `npm.cmd run dev:web`. Abrir http://localhost:5173 y usar la contraseña vigente de aplicación. No usar contraseñas de conexión ni el archivo del primer acceso si ya cambió la contraseña. No ejecutar bootstrap otra vez.
+En dos terminales de la raíz: `npm.cmd run dev:api` y `npm.cmd run dev:web`. En este equipo abrir http://127.0.0.1:5173 y usar la contraseña vigente de aplicación. WEB_ORIGIN debe coincidir; la configuración local ya fue ajustada. No usar contraseñas de conexión ni el archivo del primer acceso si ya cambió la contraseña. No ejecutar bootstrap otra vez.
 
 `npm.cmd run db:inspect` y `npm.cmd run db:verify:oracle` comprueban conexión y lecturas. `npm.cmd test` y `npm.cmd run build` verifican el código sin introducir datos en las bases.
 
@@ -56,4 +56,4 @@ Comprobar login/logout, las 18 pantallas según permisos, búsquedas y paginaci�
 
 ## Aclaración del schema SQL Server
 
-Un schema es un contenedor dentro de la base: `dbo.USUARIO` significa tabla USUARIO dentro de dbo. Un perfil es un conjunto de permisos de la aplicación: son conceptos distintos. Las tablas actuales usan dbo y la aplicación funciona con ese diseño. El PDF pide crear un schema y un usuario dueño para el módulo. La [migración 040](SQLSERVER_SCHEMA.md) ya está preparada con soporte en la API, validación y rollback; requiere aplicarla desde una sesión administradora de SSMS. No está aplicada todavía y el `.env` local sigue resolviendo dbo. Los MER se actualizarán a SEGURIDAD_PROVEEDORES únicamente después de confirmar el traslado real.
+Un schema es un contenedor dentro de la base: `dbo.USUARIO` significa tabla USUARIO dentro de dbo. Un perfil es un conjunto de permisos de la aplicación: son conceptos distintos. Las tablas actuales usan dbo y la aplicación funciona con ese diseño. El PDF pide crear un schema y un usuario dueño para el módulo. La [migración 040](SQLSERVER_SCHEMA.md) ya fue aplicada y verificada. Las siete tablas, el MER SQL y `.env` local usan SEGURIDAD_PROVEEDORES. Su propietario es ADMIN_SEGURIDAD_PROVEEDORES. No repetir la migración ni el bootstrap para validar perfiles.

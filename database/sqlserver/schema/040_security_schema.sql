@@ -34,7 +34,8 @@ IF EXISTS(SELECT 1 FROM sys.objects o JOIN @Tables t ON t.object_id=o.object_id 
 IF EXISTS(SELECT 1 FROM sys.sql_expression_dependencies d JOIN @Tables t ON t.object_id=d.referenced_id)
   THROW 51045, 'Hay dependencias SQL registradas; actualizar esos modulos antes de mover las tablas.',1;
 IF EXISTS(SELECT 1 FROM sys.database_permissions p JOIN @Tables t ON t.object_id=p.major_id
-  WHERE p.class=1 AND (p.minor_id<>0 OR p.state NOT IN ('G','W','D') OR USER_NAME(p.grantor_principal_id)<>N'dbo'))
+  WHERE p.class=1 AND (p.minor_id<>0 OR p.state NOT IN ('G','W','D')
+    OR USER_NAME(p.grantor_principal_id) NOT IN (N'dbo',N'ADMIN_SEGURIDAD_PROVEEDORES')))
   THROW 51046, 'Permisos de columna o delegacion no contemplados. Requiere revision particular.',1;
 IF EXISTS(SELECT 1 FROM sys.triggers tr JOIN @Tables t ON tr.parent_id=t.object_id)
   THROW 51047, 'Se detectaron triggers; detener y revisar. Este proyecto conserva cero triggers.',1;
@@ -73,7 +74,7 @@ BEGIN TRY
       THROW 51050, 'El schema destino pertenece a otro usuario. No se cambia su propietario.',1;
     EXEC(N'ALTER USER [ADMIN_SEGURIDAD_PROVEEDORES] WITH DEFAULT_SCHEMA=[SEGURIDAD_PROVEEDORES];');
   END;
-  DECLARE move_tables CURSOR LOCAL FAST_FORWARD FOR SELECT name FROM @Tables ORDER BY name;
+  DECLARE move_tables CURSOR LOCAL STATIC READ_ONLY FOR SELECT name FROM @Tables ORDER BY name;
   OPEN move_tables; FETCH NEXT FROM move_tables INTO @Name;
   WHILE @@FETCH_STATUS=0
   BEGIN
@@ -82,7 +83,16 @@ BEGIN TRY
     FETCH NEXT FROM move_tables INTO @Name;
   END;
   CLOSE move_tables; DEALLOCATE move_tables;
+  -- Verificar el traslado ANTES de intentar conceder permisos.
+  IF EXISTS(SELECT 1 FROM @Tables t LEFT JOIN sys.tables live ON live.object_id=t.object_id
+      WHERE live.object_id IS NULL OR live.schema_id<>SCHEMA_ID(@Target))
+    THROW 51055, 'No todas las tablas quedaron en el destino; se revierte sin conceder permisos.',1;
+  DECLARE @TargetGrantor int;
+  SELECT @TargetGrantor=principal_id FROM sys.schemas WHERE name=@Target;
+  IF @TargetGrantor IS NULL THROW 51056, 'No se pudo identificar al propietario del destino.',1;
   -- ALTER SCHEMA elimina permisos de objeto: restaurar todos los capturados.
+  -- El otorgante sera el propietario ACTUAL del schema. Los destinatarios,
+  -- permisos y estados se conservan; el grantor cambia con la propiedad.
   DECLARE @Grantee int,@Grantor int,@Permission sysname,@State char(1);
   DECLARE restore_permissions CURSOR LOCAL FAST_FORWARD FOR
     SELECT p.object_id,p.grantee,p.grantor,p.permission_name,p.state,t.name FROM @Permissions p
@@ -92,18 +102,21 @@ BEGIN TRY
   BEGIN
     SET @sql=CASE WHEN @State='D' THEN N'DENY ' ELSE N'GRANT ' END+@Permission+N' ON OBJECT::'
       +QUOTENAME(@Target)+N'.'+QUOTENAME(@Name)+N' TO '+QUOTENAME(USER_NAME(@Grantee))
-      +CASE WHEN @State='W' THEN N' WITH GRANT OPTION' ELSE N'' END+N' AS '+QUOTENAME(USER_NAME(@Grantor))+N';';
+      +CASE WHEN @State='W' THEN N' WITH GRANT OPTION' ELSE N'' END+N' AS '+QUOTENAME(USER_NAME(@TargetGrantor))+N';';
     EXEC sys.sp_executesql @sql;
     FETCH NEXT FROM restore_permissions INTO @Id,@Grantee,@Grantor,@Permission,@State,@Name;
   END;
   CLOSE restore_permissions; DEALLOCATE restore_permissions;
-  IF EXISTS(SELECT object_id,grantee,grantor,permission_name,state FROM @Permissions EXCEPT
-    SELECT p.major_id,p.grantee_principal_id,p.grantor_principal_id,p.permission_name COLLATE DATABASE_DEFAULT,p.state COLLATE DATABASE_DEFAULT
+  IF EXISTS(SELECT object_id,grantee,permission_name,state FROM @Permissions EXCEPT
+    SELECT p.major_id,p.grantee_principal_id,p.permission_name COLLATE DATABASE_DEFAULT,p.state COLLATE DATABASE_DEFAULT
     FROM sys.database_permissions p JOIN @Tables t ON t.object_id=p.major_id WHERE p.class=1 AND p.minor_id=0)
-    OR EXISTS(SELECT p.major_id,p.grantee_principal_id,p.grantor_principal_id,p.permission_name COLLATE DATABASE_DEFAULT,p.state COLLATE DATABASE_DEFAULT
+    OR EXISTS(SELECT p.major_id,p.grantee_principal_id,p.permission_name COLLATE DATABASE_DEFAULT,p.state COLLATE DATABASE_DEFAULT
     FROM sys.database_permissions p JOIN @Tables t ON t.object_id=p.major_id WHERE p.class=1 EXCEPT
-    SELECT object_id,grantee,grantor,permission_name,state FROM @Permissions)
+    SELECT object_id,grantee,permission_name,state FROM @Permissions)
     THROW 51051, 'Los permisos no coinciden; se revierte toda la migracion.',1;
+  IF EXISTS(SELECT 1 FROM sys.database_permissions p JOIN @Tables t ON t.object_id=p.major_id
+      WHERE p.class=1 AND p.grantor_principal_id<>@TargetGrantor)
+    THROW 51057, 'El otorgante no coincide con el propietario destino; se revierte.',1;
   IF EXISTS(SELECT object_id,parent_object_id,type FROM @Keys EXCEPT
     SELECT object_id,parent_object_id,type COLLATE DATABASE_DEFAULT FROM sys.objects)
     THROW 51052, 'Las claves cambiaron; se revierte la migracion.',1;

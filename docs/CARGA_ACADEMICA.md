@@ -22,4 +22,4 @@ La herramienta guarda los IDs y snapshots en `.local/academic-load-2026-11-07.js
 
 ## Alcance académico pendiente
 
-Esta carga completa las tablas vacías, pero no reemplaza el Excel original con fórmulas dinámicas de INSERT, los scripts originales de todas las tablas o la demostración de reproducción en VM. Se conservan como pendientes explícitos.
+Esta carga completa las tablas vacías. El usuario confirma que el Excel ya fue realizado como tarea anterior y pide omitirlo. Los scripts originales completos y la reproducción en VM aún no se han verificado en esta carpeta.

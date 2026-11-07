@@ -2,6 +2,10 @@
 
 ## Actualización 2026-11-07
 
+Cierre posterior del traslado real: el usuario confirmó simulación v2 y aplicación 040 en SSMS. Se verificaron 7 tablas con el schema y dueño nuevos, 7 PK, 6 FK, 35 grants de roles, conteos de seguridad conservados, 69 permisos efectivos del administrador y lecturas reales de los siete módulos sin hashes. La API se configuró localmente para el schema nuevo y las pruebas de código siguen pasando (26). El MER SQL se regeneró y revisó en sus dos páginas. No se afirma prueba de login con la contraseña vigente ni validación visual de UI: quedan para el usuario y sus perfiles.
+
+Comprobación HTTP posterior desde http://127.0.0.1:5173: frontend 200 HTML, ready 200 JSON, modules/me sin sesión 401 JSON y logout sin sesión 204 con el origen permitido. El origen localhost diferente recibió 403. Se eligió 127.0.0.1 porque localhost:5173 estaba resolviendo otra aplicación por IPv6. No se detuvieron procesos de otros proyectos ni se utilizaron contraseñas de usuarios para esta comprobación.
+
 Preparación posterior de schema SQL: 26 pruebas aprobadas (incluyen restricción del identificador y paginación parametrizada en el schema nuevo), build y escáner correctos. Contra SQL Server real se comprobaron el hash-schema, permisos efectivos y lecturas de los siete módulos con dbo. La vista previa de 040 devolvió las siete tablas sin modificaciones; PARSEONLY aceptó los tres scripts SQL nuevos/actualizados. Esto no prueba la ejecución de ALTER SCHEMA: falta la sesión administradora. La prueba previa detectó y corrigió una incompatibilidad de collation en la comparación EXCEPT; no se cambió la collation de la base.
 
 24 pruebas aprobadas y build correcto. npm audit de producción reportó cero vulnerabilidades; security:scan aprobó la lista de publicación sin coincidencias de secretos locales o patrones de credenciales. No se repitió la prueba HTTP integral: la evidencia del 04-11 se conserva como histórica.

@@ -7,6 +7,8 @@ const viz = await instance();
 const oracle = JSON.parse(await readFile('docs/evidence/oracle.json', 'utf8'));
 const sql = JSON.parse(await readFile('docs/evidence/sqlserver.json', 'utf8'));
 const dest = 'docs/mer/final'; await mkdir(dest, { recursive: true });
+const requested = process.argv[2];
+if (requested && !['oracle', 'sqlserver'].includes(requested)) throw new Error('Expected oracle or sqlserver');
 const esc = value => String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
 const ocols = oracle.results.find(r => r.query.includes('FROM all_tab_columns')).rows;
 const okeys = oracle.results.find(r => r.query.includes('FROM all_constraints')).rows;
@@ -35,6 +37,7 @@ for (const [engine, rows, rels, title, subtitle] of [
   ['oracle', orows, orels, 'Oracle | Cuentas por pagar', 'ADMIN_CU_PROVEEDORES - 11 tablas - 11 relaciones FK'],
   ['sqlserver', srows, srels, 'SQL Server | Seguridad de aplicacion', `CuentasPorPagarDB / ${sqlSchemas[0]} - 7 tablas - 6 relaciones FK`]
 ]) {
+  if (requested && requested !== engine) continue;
   const tables = [...new Set(rows.map(r => r.table))].sort();
   const dot = ['digraph MER {', 'graph [rankdir=LR, bgcolor="white", pad=0.4, nodesep=0.6, ranksep=1.2, splines=polyline, fontname="Arial", labelloc=t, labeljust=l, fontsize=26, label="' + title + '\\n' + subtitle + '\\nVerificado 2026-11-07 | PK: primaria, FK: foranea, NN: obligatorio, ID: identity"];',
     'node [shape=plain, fontname="Arial"];', 'edge [color="#64748b", arrowsize=0.7, fontname="Arial", fontsize=10];'];
@@ -51,7 +54,7 @@ for (const [engine, rows, rels, title, subtitle] of [
   await writeFile(`${dest}/${engine}.dot`, source);
   const rendered = viz.renderString(source, { format: 'svg', engine: 'dot' });
   await writeFile(`${dest}/${engine}.svg`, rendered);
-  const dictionary = { engine, verifiedAt: '2026-11-07', tables: tables.map(name => ({ name, columns: rows.filter(r => r.table === name).map(({ table, ...r }) => r) })), relations: rels };
+  const dictionary = { engine, schema: engine === 'oracle' ? 'ADMIN_CU_PROVEEDORES' : sqlSchemas[0], verifiedAt: '2026-11-07', tables: tables.map(name => ({ name, columns: rows.filter(r => r.table === name).map(({ table, ...r }) => r) })), relations: rels };
   await writeFile(`${dest}/${engine}-schema.json`, JSON.stringify(dictionary, null, 2));
   const mermaid = ['erDiagram'];
   for (const table of tables) {

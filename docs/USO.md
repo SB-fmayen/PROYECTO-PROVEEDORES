@@ -1,5 +1,9 @@
 # Uso local
 
+## Estado actual después del traslado de schema
+
+Las siete tablas de seguridad ya están en SEGURIDAD_PROVEEDORES. El `.env` local usa ese schema y `WEB_ORIGIN=http://127.0.0.1:5173`. En este equipo abrir **http://127.0.0.1:5173**: localhost puede resolver otra aplicación por IPv6. No detener procesos de otros proyectos. No repetir migración 040, bootstrap o carga académica. El MER SQL se renovó con el schema real. La verificación visual y con perfiles sigue pendiente.
+
 ## Preparación de bases
 
 Las conexiones del `.env`, la columna PASSWORD_HASH y las diez identities Oracle ya quedaron corregidas y verificadas. El administrador de aplicación ya está creado. No hay scripts de corrección pendientes en este entorno. No sobrescribir `.env` ni copiar secretos a capturas/chats. Los pasos siguientes son para reproducir la preparación en otra instalación, no para volver a realinear este entorno automáticamente.

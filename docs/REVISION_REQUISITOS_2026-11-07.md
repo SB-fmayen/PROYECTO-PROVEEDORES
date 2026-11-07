@@ -1,5 +1,11 @@
 # Revisión del proyecto contra el PDF - 2026-11-07
 
+## Estado actual tras la migración
+
+El usuario confirmó la simulación v2 y después CONFIRMADO en SSMS. Se verificaron siete tablas en SEGURIDAD_PROVEEDORES, dueño ADMIN_SEGURIDAD_PROVEEDORES, 7 PK, 6 FK, 35 grants de roles y conteos conservados. La API consulta los siete módulos mediante el nuevo schema y el MER SQL se actualizó. La revisión visual y con perfiles sigue pendiente.
+
+El usuario confirma que el Excel ya fue realizado y pide omitirlo: no se crea otro ni se mantiene como pendiente. El resto del documento conserva el historial anterior y no sustituye este estado actual.
+
 ## Actualización posterior a la revisión inicial
 
 El usuario autorizó llenar las cuatro tablas vacías y preparar los MER finales. Se completaron 10 retenciones, 10 solicitudes, 10 liquidaciones y 20 líneas contables, con 50 eventos de auditoría en la misma transacción. Se verificaron snapshots persistidos, proveedor de documento/pago, conciliación de importes, balance por documento/pago y rechazo de recarga. Son datos académicos identificados; no operaciones fiscales reales.

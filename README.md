@@ -6,12 +6,12 @@ Incluye administrador inicial con Argon2id, login, sesión, logout, permisos por
 
 ## Entrega del 7 de noviembre de 2026
 
-Actualización: [migración de schema y usuario dueño SQL](docs/SQLSERVER_SCHEMA.md) preparada con validación, reversión y soporte de configuración en la API. Requiere ejecutarla desde SSMS con una cuenta administradora; aún no se ha aplicado en la base local.
+Actualización: [migración de schema y usuario dueño SQL](docs/SQLSERVER_SCHEMA.md) aplicada y verificada. Las siete tablas están en SEGURIDAD_PROVEEDORES y `.env` local ya usa el nuevo schema. No repetir la migración ni el bootstrap en este entorno.
 
 - [MER finales](docs/mer/README.md): Oracle y SQL Server en PDF vectorial, SVG y fuentes editables, con tipos, PK/FK y catálogo de relaciones contrastados con los metadatos.
 - [Carga académica](docs/CARGA_ACADEMICA.md): 10 retenciones, 10 solicitudes, 10 liquidaciones y 20 líneas contables, identificadas como ejercicio. SQL parametrizado, una transacción y 50 eventos de auditoría. No representa cálculo fiscal real.
 - Pruebas unitarias, compilación, revisión de publicación y npm audit de producción correctos. GitHub Actions repite estas comprobaciones sin credenciales ni acceso a las bases.
-- La validación visual y con los perfiles existentes se reserva para la sesión con el usuario. El Excel original, los DDL originales completos, la reproducción en VM y la acreditación del schema/dueño SQL siguen pendientes; no se declara cumplimiento académico total.
+- La validación visual y con los perfiles existentes se reserva para la sesión con el usuario. El Excel se considera realizado por confirmación del usuario. Los DDL originales completos y la reproducción en VM aún no se han verificado en esta carpeta; no se declara cumplimiento académico total.
 
 La interfaz ofrece listas buscables de referencias, sugerencias de clasificación, estado Activo/Inactivo e interruptores de permisos con booleanos reales. Cada módulo tiene un botón (i) de información. Driver.js 1.10.2 presenta una bienvenida por usuario/navegador y un recorrido completo que visita únicamente módulos permitidos; siempre se puede omitir, cerrar con Escape o repetir desde la barra superior. No modifica la base ni crea registros de demostración.
 

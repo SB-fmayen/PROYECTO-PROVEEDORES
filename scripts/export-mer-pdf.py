@@ -2,6 +2,7 @@
 Dependencia opcional: pip install reportlab. Ejecutar desde la raiz.
 """
 import json
+import sys
 import re
 import xml.etree.ElementTree as ET
 from pathlib import Path
@@ -63,7 +64,10 @@ def draw_svg(pdf, node):
     pdf.restoreState()
 
 root = Path('docs/mer/final')
-for engine in ('oracle', 'sqlserver'):
+engines = sys.argv[1:] or ['oracle', 'sqlserver']
+if any(engine not in ('oracle', 'sqlserver') for engine in engines):
+    raise ValueError('Expected oracle or sqlserver')
+for engine in engines:
     schema = json.loads((root / f'{engine}-schema.json').read_text(encoding='utf-8'))
     drawing = ET.parse(root / f'{engine}.svg').getroot()
     # Primera pagina en tamano nativo para conservar legibilidad al ampliar/imprimir.

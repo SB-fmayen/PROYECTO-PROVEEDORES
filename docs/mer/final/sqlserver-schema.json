@@ -1,5 +1,6 @@
 {
   "engine": "sqlserver",
+  "schema": "SEGURIDAD_PROVEEDORES",
   "verifiedAt": "2026-11-07",
   "tables": [
     {

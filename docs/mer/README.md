@@ -2,6 +2,8 @@
 
 Verificados el 07-11-2026 contra los metadatos consultados de ambas bases. Incluyen todas las tablas, columnas, tipos, PK/FK, identidad y nulabilidad visibles. No contienen filas de negocio, credenciales ni valores de hashes.
 
+El MER SQL ya representa SEGURIDAD_PROVEEDORES tras la migración confirmada y verificada; su propietario es ADMIN_SEGURIDAD_PROVEEDORES. Para regenerar únicamente ese modelo: `node scripts/export-mer.mjs sqlserver` y `python scripts/export-mer-pdf.py sqlserver`.
+
 | Motor | Entidades | Columnas | Relaciones | Entrega |
 | --- | ---: | ---: | ---: | --- |
 | Oracle | 11 | 76 | 11 | [PDF final](final/MER-oracle-final.pdf), [SVG](final/oracle.svg), [Mermaid](oracle.md) |
