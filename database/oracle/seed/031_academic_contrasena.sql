@@ -1,0 +1,6 @@
+-- Solicitud academica; no es una contrasena de acceso.
+INSERT INTO ADMIN_CU_PROVEEDORES.CONTRASENA_PAGO
+  (IDDOCUMENTOCOMPRA, IDUSUARIO, FECHASOLICITUD, FECHAVENCIMIENTO, ESTADO)
+VALUES (:documentId, :userId, TO_DATE(:dateValue, 'YYYY-MM-DD'),
+  TO_DATE(:dueDate, 'YYYY-MM-DD'), :statusValue)
+RETURNING IDCONTRASENA INTO :newId

@@ -1,0 +1,349 @@
+{
+  "engine": "sqlserver",
+  "verifiedAt": "2026-11-07",
+  "tables": [
+    {
+      "name": "MENU",
+      "columns": [
+        {
+          "column": "ID_MENU",
+          "type": "int",
+          "nullable": false,
+          "identity": true,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "column": "NOMBRE_MENU",
+          "type": "varchar(100)",
+          "nullable": false,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "RUTA",
+          "type": "varchar(200)",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "ORDEN",
+          "type": "int",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "ESTADO",
+          "type": "bit",
+          "nullable": false,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        }
+      ]
+    },
+    {
+      "name": "PERFIL",
+      "columns": [
+        {
+          "column": "ID_PERFIL",
+          "type": "int",
+          "nullable": false,
+          "identity": true,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "column": "NOMBRE_PERFIL",
+          "type": "varchar(80)",
+          "nullable": false,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "DESCRIPCION",
+          "type": "varchar(250)",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "ESTADO",
+          "type": "bit",
+          "nullable": false,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        }
+      ]
+    },
+    {
+      "name": "PERFIL_MENU",
+      "columns": [
+        {
+          "column": "ID_PERFIL",
+          "type": "int",
+          "nullable": false,
+          "identity": false,
+          "pk": true,
+          "fk": true
+        },
+        {
+          "column": "ID_MENU",
+          "type": "int",
+          "nullable": false,
+          "identity": false,
+          "pk": true,
+          "fk": true
+        },
+        {
+          "column": "PUEDE_VER",
+          "type": "bit",
+          "nullable": false,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "PUEDE_CREAR",
+          "type": "bit",
+          "nullable": false,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "PUEDE_EDITAR",
+          "type": "bit",
+          "nullable": false,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "PUEDE_ELIMINAR",
+          "type": "bit",
+          "nullable": false,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        }
+      ]
+    },
+    {
+      "name": "ROL",
+      "columns": [
+        {
+          "column": "ID_ROL",
+          "type": "int",
+          "nullable": false,
+          "identity": true,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "column": "NOMBRE_ROL",
+          "type": "varchar(80)",
+          "nullable": false,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "DESCRIPCION",
+          "type": "varchar(250)",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "ESTADO",
+          "type": "bit",
+          "nullable": false,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        }
+      ]
+    },
+    {
+      "name": "ROL_PERFIL",
+      "columns": [
+        {
+          "column": "ID_ROL",
+          "type": "int",
+          "nullable": false,
+          "identity": false,
+          "pk": true,
+          "fk": true
+        },
+        {
+          "column": "ID_PERFIL",
+          "type": "int",
+          "nullable": false,
+          "identity": false,
+          "pk": true,
+          "fk": true
+        },
+        {
+          "column": "ESTADO",
+          "type": "bit",
+          "nullable": false,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        }
+      ]
+    },
+    {
+      "name": "USUARIO",
+      "columns": [
+        {
+          "column": "ID_USUARIO",
+          "type": "int",
+          "nullable": false,
+          "identity": true,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "column": "NOMBRE",
+          "type": "varchar(100)",
+          "nullable": false,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "USUARIO_LOGIN",
+          "type": "varchar(50)",
+          "nullable": false,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "CORREO",
+          "type": "varchar(120)",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "ESTADO",
+          "type": "bit",
+          "nullable": false,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "FECHA_CREACION",
+          "type": "datetime2",
+          "nullable": false,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "PASSWORD_HASH",
+          "type": "varchar(255)",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        }
+      ]
+    },
+    {
+      "name": "USUARIO_ROL",
+      "columns": [
+        {
+          "column": "ID_USUARIO",
+          "type": "int",
+          "nullable": false,
+          "identity": false,
+          "pk": true,
+          "fk": true
+        },
+        {
+          "column": "ID_ROL",
+          "type": "int",
+          "nullable": false,
+          "identity": false,
+          "pk": true,
+          "fk": true
+        },
+        {
+          "column": "FECHA_ASIGNACION",
+          "type": "datetime2",
+          "nullable": false,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "ESTADO",
+          "type": "bit",
+          "nullable": false,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        }
+      ]
+    }
+  ],
+  "relations": [
+    {
+      "name": "FK_PERFIL_MENU_MENU",
+      "child": "PERFIL_MENU",
+      "childCol": "ID_MENU",
+      "parent": "MENU",
+      "parentCol": "ID_MENU"
+    },
+    {
+      "name": "FK_PERFIL_MENU_PERFIL",
+      "child": "PERFIL_MENU",
+      "childCol": "ID_PERFIL",
+      "parent": "PERFIL",
+      "parentCol": "ID_PERFIL"
+    },
+    {
+      "name": "FK_ROL_PERFIL_PERFIL",
+      "child": "ROL_PERFIL",
+      "childCol": "ID_PERFIL",
+      "parent": "PERFIL",
+      "parentCol": "ID_PERFIL"
+    },
+    {
+      "name": "FK_ROL_PERFIL_ROL",
+      "child": "ROL_PERFIL",
+      "childCol": "ID_ROL",
+      "parent": "ROL",
+      "parentCol": "ID_ROL"
+    },
+    {
+      "name": "FK_USUARIO_ROL_ROL",
+      "child": "USUARIO_ROL",
+      "childCol": "ID_ROL",
+      "parent": "ROL",
+      "parentCol": "ID_ROL"
+    },
+    {
+      "name": "FK_USUARIO_ROL_USUARIO",
+      "child": "USUARIO_ROL",
+      "childCol": "ID_USUARIO",
+      "parent": "USUARIO",
+      "parentCol": "ID_USUARIO"
+    }
+  ]
+}

@@ -1,0 +1,748 @@
+{
+  "engine": "oracle",
+  "verifiedAt": "2026-11-07",
+  "tables": [
+    {
+      "name": "ASIENTO_CONTABLE",
+      "columns": [
+        {
+          "column": "IDASIENTO",
+          "type": "NUMBER",
+          "nullable": false,
+          "identity": true,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "column": "IDDOCUMENTOCOMPRA",
+          "type": "NUMBER",
+          "nullable": false,
+          "identity": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "column": "IDPAGO",
+          "type": "NUMBER",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "column": "FECHA",
+          "type": "DATE",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "CUENTACONTABLE",
+          "type": "VARCHAR2(20 BYTE)",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "DEBE",
+          "type": "NUMBER(12,2)",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "HABER",
+          "type": "NUMBER(12,2)",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "PERIODO",
+          "type": "VARCHAR2(10 BYTE)",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        }
+      ]
+    },
+    {
+      "name": "CENTRO_COSTO",
+      "columns": [
+        {
+          "column": "IDCENTROCOSTO",
+          "type": "NUMBER",
+          "nullable": false,
+          "identity": true,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "column": "NOMBRE",
+          "type": "VARCHAR2(100 BYTE)",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "TIPO",
+          "type": "VARCHAR2(30 BYTE)",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "DESCRIPCION",
+          "type": "VARCHAR2(200 BYTE)",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        }
+      ]
+    },
+    {
+      "name": "CONTRASENA_PAGO",
+      "columns": [
+        {
+          "column": "IDCONTRASENA",
+          "type": "NUMBER",
+          "nullable": false,
+          "identity": true,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "column": "IDDOCUMENTOCOMPRA",
+          "type": "NUMBER",
+          "nullable": false,
+          "identity": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "column": "IDUSUARIO",
+          "type": "NUMBER",
+          "nullable": false,
+          "identity": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "column": "FECHASOLICITUD",
+          "type": "DATE",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "FECHAVENCIMIENTO",
+          "type": "DATE",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "ESTADO",
+          "type": "VARCHAR2(15 BYTE)",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        }
+      ]
+    },
+    {
+      "name": "DETALLE_DOCUMENTO_COMPRA",
+      "columns": [
+        {
+          "column": "IDDETALLE",
+          "type": "NUMBER",
+          "nullable": false,
+          "identity": true,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "column": "IDDOCUMENTOCOMPRA",
+          "type": "NUMBER",
+          "nullable": false,
+          "identity": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "column": "DESCRIPCION",
+          "type": "VARCHAR2(200 BYTE)",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "CANTIDAD",
+          "type": "NUMBER(10,2)",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "PRECIOUNITARIO",
+          "type": "NUMBER(12,2)",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "MONTO",
+          "type": "NUMBER(12,2)",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        }
+      ]
+    },
+    {
+      "name": "DOCUMENTO_COMPRA",
+      "columns": [
+        {
+          "column": "IDDOCUMENTOCOMPRA",
+          "type": "NUMBER",
+          "nullable": false,
+          "identity": true,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "column": "IDPROVEEDOR",
+          "type": "NUMBER",
+          "nullable": false,
+          "identity": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "column": "IDCENTROCOSTO",
+          "type": "NUMBER",
+          "nullable": false,
+          "identity": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "column": "TIPODOCUMENTO",
+          "type": "VARCHAR2(30 BYTE)",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "SERIE",
+          "type": "VARCHAR2(10 BYTE)",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "NUMERODOCUMENTO",
+          "type": "VARCHAR2(20 BYTE)",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "FECHAEMISION",
+          "type": "DATE",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "FECHAVENCIMIENTO",
+          "type": "DATE",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "SUBTOTAL",
+          "type": "NUMBER(12,2)",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "IVA",
+          "type": "NUMBER(12,2)",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "TOTAL",
+          "type": "NUMBER(12,2)",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "ESTADO",
+          "type": "VARCHAR2(15 BYTE)",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        }
+      ]
+    },
+    {
+      "name": "DOCUMENTO_POR_LIQUIDAR",
+      "columns": [
+        {
+          "column": "IDLIQUIDACION",
+          "type": "NUMBER",
+          "nullable": false,
+          "identity": true,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "column": "IDPAGO",
+          "type": "NUMBER",
+          "nullable": false,
+          "identity": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "column": "IDDOCUMENTOCOMPRA",
+          "type": "NUMBER",
+          "nullable": false,
+          "identity": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "column": "MONTOAPLICADO",
+          "type": "NUMBER(12,2)",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "SALDOPENDIENTE",
+          "type": "NUMBER(12,2)",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "FECHALIQUIDACION",
+          "type": "DATE",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        }
+      ]
+    },
+    {
+      "name": "LOG_AUDITORIA_ODC",
+      "columns": [
+        {
+          "column": "ID_AUDITORIA",
+          "type": "NUMBER(12,0)",
+          "nullable": false,
+          "identity": false,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "column": "NOMBRE_TABLA",
+          "type": "VARCHAR2(50 BYTE)",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "OPERACION",
+          "type": "VARCHAR2(20 BYTE)",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "USUARIO_DB",
+          "type": "VARCHAR2(100 BYTE)",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "FECHA_HORA",
+          "type": "TIMESTAMP(6)",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "ID_REGISTRO",
+          "type": "VARCHAR2(100 BYTE)",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "DATOS_ANTERIORES",
+          "type": "VARCHAR2(4000 BYTE)",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "DATOS_NUEVOS",
+          "type": "VARCHAR2(4000 BYTE)",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "IP_ORIGEN",
+          "type": "VARCHAR2(50 BYTE)",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "HOST_ORIGEN",
+          "type": "VARCHAR2(255 BYTE)",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        }
+      ]
+    },
+    {
+      "name": "PAGO_BANCARIO",
+      "columns": [
+        {
+          "column": "IDPAGO",
+          "type": "NUMBER",
+          "nullable": false,
+          "identity": true,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "column": "IDPROVEEDOR",
+          "type": "NUMBER",
+          "nullable": false,
+          "identity": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "column": "TIPOPAGO",
+          "type": "VARCHAR2(20 BYTE)",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "NUMERODOCUMENTO",
+          "type": "VARCHAR2(20 BYTE)",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "FECHA",
+          "type": "DATE",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "MONTO",
+          "type": "NUMBER(12,2)",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "BANCO",
+          "type": "VARCHAR2(50 BYTE)",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "ESTADO",
+          "type": "VARCHAR2(20 BYTE)",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        }
+      ]
+    },
+    {
+      "name": "PROVEEDOR",
+      "columns": [
+        {
+          "column": "IDPROVEEDOR",
+          "type": "NUMBER",
+          "nullable": false,
+          "identity": true,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "column": "NIT",
+          "type": "VARCHAR2(15 BYTE)",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "RAZONSOCIAL",
+          "type": "VARCHAR2(150 BYTE)",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "DIRECCION",
+          "type": "VARCHAR2(200 BYTE)",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "TIPOCONTRIBUYENTE",
+          "type": "VARCHAR2(30 BYTE)",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "ESTADO",
+          "type": "VARCHAR2(15 BYTE)",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "SALDOACTUAL",
+          "type": "NUMBER(12,2)",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        }
+      ]
+    },
+    {
+      "name": "RETENCION_ISR",
+      "columns": [
+        {
+          "column": "IDRETENCION",
+          "type": "NUMBER",
+          "nullable": false,
+          "identity": true,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "column": "IDDOCUMENTOCOMPRA",
+          "type": "NUMBER",
+          "nullable": false,
+          "identity": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "column": "MONTORETENIDO",
+          "type": "NUMBER(12,2)",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "FECHA",
+          "type": "DATE",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "NUMEROCONSTANCIA",
+          "type": "VARCHAR2(20 BYTE)",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        }
+      ]
+    },
+    {
+      "name": "USUARIO",
+      "columns": [
+        {
+          "column": "IDUSUARIO",
+          "type": "NUMBER",
+          "nullable": false,
+          "identity": true,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "column": "NOMBRE",
+          "type": "VARCHAR2(100 BYTE)",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "ROL",
+          "type": "VARCHAR2(50 BYTE)",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "column": "ESTADO",
+          "type": "VARCHAR2(15 BYTE)",
+          "nullable": true,
+          "identity": false,
+          "pk": false,
+          "fk": false
+        }
+      ]
+    }
+  ],
+  "relations": [
+    {
+      "name": "FK_DOCCOMPRA_PROVEEDOR",
+      "child": "DOCUMENTO_COMPRA",
+      "childCol": "IDPROVEEDOR",
+      "parent": "PROVEEDOR",
+      "parentCol": "IDPROVEEDOR"
+    },
+    {
+      "name": "FK_DOCCOMPRA_CENTROCOSTO",
+      "child": "DOCUMENTO_COMPRA",
+      "childCol": "IDCENTROCOSTO",
+      "parent": "CENTRO_COSTO",
+      "parentCol": "IDCENTROCOSTO"
+    },
+    {
+      "name": "FK_DETALLE_DOCCOMPRA",
+      "child": "DETALLE_DOCUMENTO_COMPRA",
+      "childCol": "IDDOCUMENTOCOMPRA",
+      "parent": "DOCUMENTO_COMPRA",
+      "parentCol": "IDDOCUMENTOCOMPRA"
+    },
+    {
+      "name": "FK_RETENCION_DOCCOMPRA",
+      "child": "RETENCION_ISR",
+      "childCol": "IDDOCUMENTOCOMPRA",
+      "parent": "DOCUMENTO_COMPRA",
+      "parentCol": "IDDOCUMENTOCOMPRA"
+    },
+    {
+      "name": "FK_CONTRASENA_DOCCOMPRA",
+      "child": "CONTRASENA_PAGO",
+      "childCol": "IDDOCUMENTOCOMPRA",
+      "parent": "DOCUMENTO_COMPRA",
+      "parentCol": "IDDOCUMENTOCOMPRA"
+    },
+    {
+      "name": "FK_CONTRASENA_USUARIO",
+      "child": "CONTRASENA_PAGO",
+      "childCol": "IDUSUARIO",
+      "parent": "USUARIO",
+      "parentCol": "IDUSUARIO"
+    },
+    {
+      "name": "FK_PAGO_PROVEEDOR",
+      "child": "PAGO_BANCARIO",
+      "childCol": "IDPROVEEDOR",
+      "parent": "PROVEEDOR",
+      "parentCol": "IDPROVEEDOR"
+    },
+    {
+      "name": "FK_LIQUIDACION_PAGO",
+      "child": "DOCUMENTO_POR_LIQUIDAR",
+      "childCol": "IDPAGO",
+      "parent": "PAGO_BANCARIO",
+      "parentCol": "IDPAGO"
+    },
+    {
+      "name": "FK_LIQUIDACION_DOCCOMPRA",
+      "child": "DOCUMENTO_POR_LIQUIDAR",
+      "childCol": "IDDOCUMENTOCOMPRA",
+      "parent": "DOCUMENTO_COMPRA",
+      "parentCol": "IDDOCUMENTOCOMPRA"
+    },
+    {
+      "name": "FK_ASIENTO_DOCCOMPRA",
+      "child": "ASIENTO_CONTABLE",
+      "childCol": "IDDOCUMENTOCOMPRA",
+      "parent": "DOCUMENTO_COMPRA",
+      "parentCol": "IDDOCUMENTOCOMPRA"
+    },
+    {
+      "name": "FK_ASIENTO_PAGO",
+      "child": "ASIENTO_CONTABLE",
+      "childCol": "IDPAGO",
+      "parent": "PAGO_BANCARIO",
+      "parentCol": "IDPAGO"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+    "private":  true,
+    "exports":  "./src/index.ts",
+    "name":  "@cpp/application",
+    "version":  "0.1.0",
+    "type":  "module"
+}

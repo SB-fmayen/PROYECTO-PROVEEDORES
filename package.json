@@ -1,0 +1,51 @@
+{
+  "name": "cuentas-por-pagar",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "compile:api": "tsc --noEmit false --outDir .build",
+    "dev:api": "npm run compile:api && node --watch .build/apps/api/src/main.js",
+    "dev:web": "npm run dev --workspace @cpp/web",
+    "typecheck": "tsc --noEmit",
+    "test": "tsc --noEmit false --outDir .test-build && node --test .test-build/tests/*.test.js",
+    "build": "npm run typecheck && npm run build --workspace @cpp/web",
+    "db:inspect": "npm run compile:api && node .build/scripts/inspect-databases.js",
+    "db:inspect:oracle": "npm run compile:api && node .build/scripts/inspect-databases.js oracle",
+    "db:health:oracle": "npm run compile:api && node .build/scripts/inspect-databases.js oracle --health",
+    "db:inspect:sqlserver": "npm run compile:api && node .build/scripts/inspect-databases.js sqlserver",
+    "db:health:sqlserver": "npm run compile:api && node .build/scripts/inspect-databases.js sqlserver --health",
+    "db:verify:oracle": "npm run compile:api && node .build/scripts/verify-oracle.js",
+    "auth:bootstrap": "npm run compile:api && node .build/scripts/bootstrap-auth.js",
+    "auth:credential": "npm run compile:api && node .build/scripts/show-initial-credential.js",
+    "db:verify:transactions": "npm run compile:api && node .build/scripts/verify-transactions.js",
+    "db:verify:core": "npm run compile:api && node .build/scripts/verify-transactions.js --core",
+    "test:integral": "npm run compile:api && node .build/scripts/verify-integral.js",
+    "db:seed:academic": "npm run compile:api && node .build/scripts/seed-academic.js",
+    "security:scan": "node scripts/publication-files.mjs"
+  },
+  "dependencies": {
+    "fastify": "^5.0.0",
+    "@fastify/helmet": "^13.0.0",
+    "@fastify/rate-limit": "^10.0.0",
+    "argon2": "^0.44.0",
+    "dotenv": "^17.0.0",
+    "mssql": "^12.0.0",
+    "oracledb": "^6.10.0",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/mssql": "^9.1.0",
+    "@types/oracledb": "^6.10.0",
+    "typescript": "^5.9.0",
+    "tsx": "^4.20.0"
+  }
+}
