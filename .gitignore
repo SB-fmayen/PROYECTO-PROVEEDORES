@@ -1,0 +1,26 @@
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+coverage/
+.test-build/
+.build/
+logs/
+.browser-profile/
+.local/
+docs/evidence/
+*.log
+tmp/
+output/
+*.pem
+*.key
+*.pfx
+*.p12
+.aws/
+.codex/
+.agents/
+*.bak
+/CODEX_CONTEXT*.md
+/PROYECTO DE BASE DE DATOS I.pdf
+/docs/Resumen_del_proyecto.rtf
