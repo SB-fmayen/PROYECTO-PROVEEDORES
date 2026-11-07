@@ -6,6 +6,8 @@ Incluye administrador inicial con Argon2id, login, sesión, logout, permisos por
 
 ## Entrega del 7 de noviembre de 2026
 
+Actualización: [migración de schema y usuario dueño SQL](docs/SQLSERVER_SCHEMA.md) preparada con validación, reversión y soporte de configuración en la API. Requiere ejecutarla desde SSMS con una cuenta administradora; aún no se ha aplicado en la base local.
+
 - [MER finales](docs/mer/README.md): Oracle y SQL Server en PDF vectorial, SVG y fuentes editables, con tipos, PK/FK y catálogo de relaciones contrastados con los metadatos.
 - [Carga académica](docs/CARGA_ACADEMICA.md): 10 retenciones, 10 solicitudes, 10 liquidaciones y 20 líneas contables, identificadas como ejercicio. SQL parametrizado, una transacción y 50 eventos de auditoría. No representa cálculo fiscal real.
 - Pruebas unitarias, compilación, revisión de publicación y npm audit de producción correctos. GitHub Actions repite estas comprobaciones sin credenciales ni acceso a las bases.

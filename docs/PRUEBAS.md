@@ -2,6 +2,8 @@
 
 ## Actualización 2026-11-07
 
+Preparación posterior de schema SQL: 26 pruebas aprobadas (incluyen restricción del identificador y paginación parametrizada en el schema nuevo), build y escáner correctos. Contra SQL Server real se comprobaron el hash-schema, permisos efectivos y lecturas de los siete módulos con dbo. La vista previa de 040 devolvió las siete tablas sin modificaciones; PARSEONLY aceptó los tres scripts SQL nuevos/actualizados. Esto no prueba la ejecución de ALTER SCHEMA: falta la sesión administradora. La prueba previa detectó y corrigió una incompatibilidad de collation en la comparación EXCEPT; no se cambió la collation de la base.
+
 24 pruebas aprobadas y build correcto. npm audit de producción reportó cero vulnerabilidades; security:scan aprobó la lista de publicación sin coincidencias de secretos locales o patrones de credenciales. No se repitió la prueba HTTP integral: la evidencia del 04-11 se conserva como histórica.
 
 La carga académica confirmada tiene 50 filas y 50 eventos de auditoría. Una segunda conexión verificó los 50 snapshots persistidos, cero discrepancias de proveedor entre documento y pago, cero diferencias entre retención + aplicación + saldo y total, y balance debe/haber por documento/pago. Se confirmó el rechazo de una recarga por manifiesto existente (salida 1 esperada, sin nuevas escrituras). Los detalles y el manifiesto permanecen en .local; el repositorio solo contiene resúmenes y metadatos de estructura.

@@ -1,3 +1,4 @@
+import { securitySql } from './schema.js';
 import sql from 'mssql';
 import { z } from 'zod';
 import { AppError } from '../../domain/src/index.js';
@@ -27,16 +28,16 @@ export async function listSecurityRecords(pool: sql.ConnectionPool, resource: Re
   const where = search && searchable.length ? ` WHERE (${searchable.map(field => `[${field.name}] LIKE @search ESCAPE '\\'`).join(' OR ')})` : '';
   if (where) request.input('search', sql.VarChar(210), `%${search.replace(/[\\%_\[]/g, char => `\\${char}`)}%`);
   request.input('offset', sql.Int, (page - 1) * pageSize).input('limit', sql.Int, pageSize);
-  const result = await request.query(`SELECT COUNT(*) AS total FROM dbo.[${resource.table}]${where};
+  const result = await request.query(securitySql(pool, `SELECT COUNT(*) AS total FROM dbo.[${resource.table}]${where};
     SELECT ${columns(resource)} FROM dbo.[${resource.table}]${where} ORDER BY ${keys(resource).map(field => `[${field.name}] DESC`).join(',')}
-    OFFSET @offset ROWS FETCH NEXT @limit ROWS ONLY`);
+    OFFSET @offset ROWS FETCH NEXT @limit ROWS ONLY`));
   const sets = result.recordsets as sql.IRecordSet<unknown>[];
   return { rows: sets[1] ?? [], total: (sets[0]?.[0] as { total: number } | undefined)?.total ?? 0, page, pageSize };
 }
 export async function getSecurityRecord(pool: sql.ConnectionPool, resource: ResourceDefinition, id: string) {
   const request = pool.request();
   const where = bindKeys(request, resource, id);
-  const result = await request.query(`SELECT ${columns(resource)} FROM dbo.[${resource.table}] WHERE ${where}`);
+  const result = await request.query(securitySql(pool, `SELECT ${columns(resource)} FROM dbo.[${resource.table}] WHERE ${where}`));
   if (!result.recordset[0]) throw new AppError(404, 'NOT_FOUND', 'Registro no encontrado.');
   return result.recordset[0] as RecordData;
 }
@@ -75,7 +76,7 @@ export async function mutateSecurityRecord(pool: sql.ConnectionPool, resource: R
     let where = '';
     if (operation !== 'INSERT') {
       where = bindKeys(request, resource, id ?? '');
-      const found = await request.query(`SELECT ${keys(resource).map(f => `[${f.name}]`).join(',')} FROM dbo.[${resource.table}] WITH (UPDLOCK,HOLDLOCK) WHERE ${where}`);
+      const found = await request.query(securitySql(pool, `SELECT ${keys(resource).map(f => `[${f.name}]`).join(',')} FROM dbo.[${resource.table}] WITH (UPDLOCK,HOLDLOCK) WHERE ${where}`));
       if (!found.recordset.length) throw new AppError(404, 'NOT_FOUND', 'Registro no encontrado.');
     }
     const names: string[] = [];
@@ -92,7 +93,7 @@ export async function mutateSecurityRecord(pool: sql.ConnectionPool, resource: R
     const query = operation === 'DELETE' ? `DELETE FROM dbo.[${resource.table}] WHERE ${where}`
       : operation === 'INSERT' ? `INSERT INTO dbo.[${resource.table}] (${names.join(',')}) OUTPUT ${keys(resource).map(f => `INSERTED.[${f.name}]`).join(',')} VALUES (${values.join(',')})`
       : `UPDATE dbo.[${resource.table}] SET ${names.map((name, index) => `${name}=${values[index]}`).join(',')} WHERE ${where}`;
-    const result = await request.query(query);
+    const result = await request.query(securitySql(pool, query));
     let recordId = id;
     if (operation === 'INSERT') recordId = keys(resource).map(field => String(result.recordset[0][field.name])).join(':');
     await transaction.commit();

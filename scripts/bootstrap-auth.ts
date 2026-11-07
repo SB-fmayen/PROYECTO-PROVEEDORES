@@ -1,3 +1,4 @@
+import { securitySql } from '../packages/db-sqlserver/src/schema.js';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import sql from 'mssql';
 import { z } from 'zod';
@@ -15,7 +16,7 @@ const config = loadConfig();
 const pool = await createSqlServerPool(config);
 try {
   await assertSecuritySchema(pool);
-  const currentUsers = await pool.request().query('SELECT COUNT(*) AS total FROM dbo.USUARIO');
+  const currentUsers = await pool.request().query(securitySql(pool, 'SELECT COUNT(*) AS total FROM dbo.USUARIO'));
   if (currentUsers.recordset[0]?.total !== 0) throw new Error('EXISTING_USERS');
   const { login, password } = await prepareInitialCredential(config);
   z.string().regex(/^[A-Za-z0-9._-]{3,50}$/).parse(login);
@@ -26,14 +27,14 @@ try {
   const transaction = new sql.Transaction(pool);
   await transaction.begin(sql.ISOLATION_LEVEL.SERIALIZABLE);
   try {
-    const existing = await new sql.Request(transaction).query('SELECT COUNT(*) AS total FROM dbo.USUARIO WITH (TABLOCKX,HOLDLOCK)');
+    const existing = await new sql.Request(transaction).query(securitySql(pool, 'SELECT COUNT(*) AS total FROM dbo.USUARIO WITH (TABLOCKX,HOLDLOCK)'));
     if (existing.recordset[0]?.total !== 0) throw new Error('EXISTING_USERS: inicializacion solo permitida en seguridad vacia; no se modifican cuentas existentes');
-    const account = await new sql.Request(transaction).input('login', sql.VarChar(50), login).input('hash', sql.VarChar(255), passwordHash).query(accountSql);
+    const account = await new sql.Request(transaction).input('login', sql.VarChar(50), login).input('hash', sql.VarChar(255), passwordHash).query(securitySql(pool, accountSql));
     const profileId = account.recordset[0].profile_id;
     const modules = [...resources, ...securityResources];
     for (let index = 0; index < modules.length; index++) {
       const resource = modules[index]!;
-      await new sql.Request(transaction).input('name', sql.VarChar(100), resource.label).input('route', sql.VarChar(200), `/${resource.slug}`).input('position', sql.Int, index + 1).input('profile', sql.Int, profileId).input('write', sql.Bit, !resource.readOnly).query(menuSql);
+      await new sql.Request(transaction).input('name', sql.VarChar(100), resource.label).input('route', sql.VarChar(200), `/${resource.slug}`).input('position', sql.Int, index + 1).input('profile', sql.Int, profileId).input('write', sql.Bit, !resource.readOnly).query(securitySql(pool, menuSql));
     }
     await transaction.commit();
     try {

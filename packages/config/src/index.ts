@@ -15,6 +15,7 @@ export const configSchema = z.object({
   SQLSERVER_INSTANCE: z.string().default('SQLEXPRESS'),
   SQLSERVER_PORT: z.preprocess(v => v === '' ? undefined : v, z.coerce.number().int().min(1).max(65535).optional()),
   SQLSERVER_DATABASE: z.literal('CuentasPorPagarDB').default('CuentasPorPagarDB'),
+  SQLSERVER_SCHEMA: z.enum(['dbo', 'SEGURIDAD_PROVEEDORES']).default('dbo'),
   SQLSERVER_AUTH: z.enum(['windows', 'sql']).default('windows'),
   SQLSERVER_USER: z.string().default(''), SQLSERVER_PASSWORD: z.string().default(''),
   SQLSERVER_ENCRYPT: bool.default(true), SQLSERVER_TRUST_CERTIFICATE: bool.default(false),

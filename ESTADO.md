@@ -2,6 +2,8 @@
 
 ## Actualización de entrega
 
+- Schema SQL: migración 040 preparada para SEGURIDAD_PROVEEDORES con dueño ADMIN_SEGURIDAD_PROVEEDORES sin login. Incluye vista previa, transacción, conservación de permisos, validación y reversión. La API admite dbo o el schema nuevo por configuración fija. No aplicada: la cuenta CRUD carece de permisos DDL y la sesión integrada Windows no conecta desde este entorno. Ejecutar desde SSMS como administrador según docs/SQLSERVER_SCHEMA.md; no elevar la cuenta de la API. Los MER actuales siguen representando dbo.
+
 - Carga académica autorizada confirmada: RETENCION_ISR 10, CONTRASENA_PAGO 10, DOCUMENTO_POR_LIQUIDAR 10 y ASIENTO_CONTABLE 20. Los 50 registros tienen auditoría de INSERT en la misma transacción. Documentos y pagos del mismo proveedor; asientos DEMO balanceados. Manifiesto y snapshots solo en .local, fuera de Git. Sin cambios en tablas originales, PK/FK, usuarios o permisos.
 - SQL de inserción y validación en database/oracle; herramienta db:seed:academic con vista previa, rechazo de recarga y rollback limitado a filas propias no modificadas. Detalles en docs/CARGA_ACADEMICA.md.
 - MER finales generados y revisados visualmente en PDF/SVG: 11 tablas y 11 FK Oracle; 7 tablas y 6 FK SQL Server. Fuentes DOT/Mermaid y catálogo de estructura incluidos en docs/mer/final.

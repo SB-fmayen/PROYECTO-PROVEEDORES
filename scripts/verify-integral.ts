@@ -1,3 +1,4 @@
+import { securitySql } from '../packages/db-sqlserver/src/schema.js';
 import assert from 'node:assert/strict';
 import { randomBytes } from 'node:crypto';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
@@ -61,7 +62,7 @@ try {
   assert.equal(login.body.token, undefined);
   assert.equal(login.response.headers['cache-control'], 'no-store');
   const adminId = login.body.userId as string;
-  const adminRecord = await security.request().input('id', sql.Int, Number(adminId)).query('SELECT PASSWORD_HASH FROM dbo.USUARIO WHERE ID_USUARIO=@id');
+  const adminRecord = await security.request().input('id', sql.Int, Number(adminId)).query(securitySql(security, 'SELECT PASSWORD_HASH FROM dbo.USUARIO WHERE ID_USUARIO=@id'));
   assert.ok(adminRecord.recordset[0].PASSWORD_HASH.startsWith('$argon2id$'));
   assert.equal(await verifyPassword(adminRecord.recordset[0].PASSWORD_HASH, credential.password), true);
   assert.equal((await readFile('.local/initial-admin.enc.json', 'utf8')).includes(credential.password), false);

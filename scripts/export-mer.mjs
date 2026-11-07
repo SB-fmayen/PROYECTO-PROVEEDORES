@@ -29,9 +29,11 @@ const srows = sql.recordsets[1].map(c => ({ table: c.table_name, column: c.colum
   pk: sql.recordsets[2].some(k => k.table_name === c.table_name && k.column_name === c.column_name && k.type_desc === 'PRIMARY_KEY_CONSTRAINT'),
   fk: sql.recordsets[3].some(k => k.parent_table === c.table_name && k.parent_column === c.column_name) }));
 const srels = sql.recordsets[3].map(k => ({ name: k.name, child: k.parent_table, childCol: k.parent_column, parent: k.referenced_table, parentCol: k.referenced_column }));
+const sqlSchemas = [...new Set(sql.recordsets[1].map(c => c.schema_name))];
+if (sqlSchemas.length !== 1 || !['dbo', 'SEGURIDAD_PROVEEDORES'].includes(sqlSchemas[0])) throw new Error('SQL schema ambiguous');
 for (const [engine, rows, rels, title, subtitle] of [
   ['oracle', orows, orels, 'Oracle | Cuentas por pagar', 'ADMIN_CU_PROVEEDORES - 11 tablas - 11 relaciones FK'],
-  ['sqlserver', srows, srels, 'SQL Server | Seguridad de aplicacion', 'CuentasPorPagarDB / dbo - 7 tablas - 6 relaciones FK']
+  ['sqlserver', srows, srels, 'SQL Server | Seguridad de aplicacion', `CuentasPorPagarDB / ${sqlSchemas[0]} - 7 tablas - 6 relaciones FK`]
 ]) {
   const tables = [...new Set(rows.map(r => r.table))].sort();
   const dot = ['digraph MER {', 'graph [rankdir=LR, bgcolor="white", pad=0.4, nodesep=0.6, ranksep=1.2, splines=polyline, fontname="Arial", labelloc=t, labeljust=l, fontsize=26, label="' + title + '\\n' + subtitle + '\\nVerificado 2026-11-07 | PK: primaria, FK: foranea, NN: obligatorio, ID: identity"];',
