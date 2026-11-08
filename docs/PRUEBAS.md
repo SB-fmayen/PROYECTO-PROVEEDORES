@@ -2,6 +2,10 @@
 
 ## Actualización 2026-11-07
 
+Suite vigente: 28 pruebas aprobadas, build y escáner de publicación correctos. Se comprobó también la recarga idempotente de las cuentas de prueba: no duplica usuarios ni reemplaza sus contraseñas.
+
+Validación posterior de perfiles: test:profiles pasó 288 comprobaciones de autorización con los dos pools reales, cuatro logins por red, comparación exacta de menús/resumen y revocación tras logout. Se crearon/editaron dos fixtures Oracle desde Operador y Tesorería y se comprobó el actor real en auditoría; el DELETE de esos usuarios fue rechazado. La limpieza auditada retiró únicamente los fixtures propios y dejó seis eventos de prueba. Admin conserva su hash y sus 69 permisos. Los cuatro usuarios/perfiles de demostración permanecen para la prueba visual. Evidencia local en docs/evidence/profile-accounts.json, sin secretos. Ver docs/PERFILES_DE_PRUEBA.md.
+
 Cierre posterior del traslado real: el usuario confirmó simulación v2 y aplicación 040 en SSMS. Se verificaron 7 tablas con el schema y dueño nuevos, 7 PK, 6 FK, 35 grants de roles, conteos de seguridad conservados, 69 permisos efectivos del administrador y lecturas reales de los siete módulos sin hashes. La API se configuró localmente para el schema nuevo y las pruebas de código siguen pasando (26). El MER SQL se regeneró y revisó en sus dos páginas. No se afirma prueba de login con la contraseña vigente ni validación visual de UI: quedan para el usuario y sus perfiles.
 
 Comprobación HTTP posterior desde http://127.0.0.1:5173: frontend 200 HTML, ready 200 JSON, modules/me sin sesión 401 JSON y logout sin sesión 204 con el origen permitido. El origen localhost diferente recibió 403. Se eligió 127.0.0.1 porque localhost:5173 estaba resolviendo otra aplicación por IPv6. No se detuvieron procesos de otros proyectos ni se utilizaron contraseñas de usuarios para esta comprobación.

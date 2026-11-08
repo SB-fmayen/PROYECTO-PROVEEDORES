@@ -1,5 +1,7 @@
 # Validar el proyecto con los perfiles existentes
 
+Las cuatro cuentas diferenciadas de demostración ya están creadas y probadas por API. Consultar la [matriz de permisos y pasos de prueba](PERFILES_DE_PRUEBA.md); este documento conserva las explicaciones generales.
+
 ## Qué usuario y perfil usa cada parte
 
 Los roles Oracle/SQL Server son permisos de las cuentas de conexión de la API. Los roles y perfiles de las tablas de seguridad SQL Server controlan lo que puede hacer cada persona en la aplicación. Los responsables de la tabla USUARIO de Oracle son datos funcionales y no sirven para iniciar sesión. No asumir que comparten IDs con las cuentas SQL.

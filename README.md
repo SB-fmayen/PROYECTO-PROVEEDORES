@@ -6,6 +6,8 @@ Incluye administrador inicial con Argon2id, login, sesión, logout, permisos por
 
 ## Entrega del 7 de noviembre de 2026
 
+[Cuentas y matriz de perfiles de prueba](docs/PERFILES_DE_PRUEBA.md): Consulta, Operador, Tesorería y Auditor, con accesos distintos. Se verificaron 288 combinaciones de rutas y los cuatro logins por red; las contraseñas no se publican en el repositorio.
+
 Actualización: [migración de schema y usuario dueño SQL](docs/SQLSERVER_SCHEMA.md) aplicada y verificada. Las siete tablas están en SEGURIDAD_PROVEEDORES y `.env` local ya usa el nuevo schema. No repetir la migración ni el bootstrap en este entorno.
 
 - [MER finales](docs/mer/README.md): Oracle y SQL Server en PDF vectorial, SVG y fuentes editables, con tipos, PK/FK y catálogo de relaciones contrastados con los metadatos.

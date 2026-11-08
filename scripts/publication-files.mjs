@@ -1,6 +1,7 @@
 import { readdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { parse } from 'dotenv';
+import { createDecipheriv, scryptSync } from 'node:crypto';
 
 const rootFiles = ['.gitignore', '.gitattributes', '.env.example', 'README.md', 'SECURITY.md', 'ESTADO.md', 'package.json', 'package-lock.json', 'tsconfig.json'];
 const directories = ['apps', 'packages', 'database', 'docs', 'scripts', 'tests', '.github'];
@@ -25,9 +26,24 @@ export async function publicationFiles() {
 export async function scanPublication() {
   const files = await publicationFiles();
   let secrets = [];
+  let localEnvironment = {};
   try {
-    secrets = Object.entries(parse(await readFile('.env'))).filter(([name, value]) => /PASSWORD|SECRET|TOKEN|API_KEY/.test(name) && value.length >= 6).map(([, value]) => value);
+    localEnvironment = parse(await readFile('.env'));
+    secrets = Object.entries(localEnvironment).filter(([name, value]) => /PASSWORD|SECRET|TOKEN|API_KEY/.test(name) && value.length >= 6).map(([, value]) => value);
   } catch (e) { if (e.code !== 'ENOENT') throw e; }
+  // Detectar tambien passwords de pruebas en archivos publicables sin escribirlos ni imprimirlos.
+  try {
+    const envelope = JSON.parse(await readFile('.local/profile-accounts.enc.json','utf8'));
+    const password = process.env.SQLSERVER_PASSWORD ?? localEnvironment.SQLSERVER_PASSWORD;
+    if (!password || envelope.version !== 1) throw new Error('No se pudo verificar el archivo local de cuentas; publicacion detenida.');
+    const key = scryptSync(password, Buffer.from(envelope.salt,'base64'),32,{N:32768,r:8,p:1,maxmem:64*1024*1024});
+    try {
+      const decipher=createDecipheriv('aes-256-gcm',key,Buffer.from(envelope.iv,'base64'));
+      decipher.setAAD(Buffer.from('cpp-profile-accounts-v1'));decipher.setAuthTag(Buffer.from(envelope.tag,'base64'));
+      const value=JSON.parse(Buffer.concat([decipher.update(Buffer.from(envelope.ciphertext,'base64')),decipher.final()]).toString('utf8'));
+      secrets.push(...value.accounts.map(account=>account.password));
+    } finally { key.fill(0); }
+  } catch(e) { if(e.code!=='ENOENT') throw new Error('No se pudo verificar el archivo local de cuentas; publicacion detenida.'); }
   const findings = [];
   for (const file of files) {
     const bytes = await readFile(file), value = bytes.toString('utf8');

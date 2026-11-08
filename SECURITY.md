@@ -12,6 +12,8 @@ Este repositorio contiene un prototipo académico. Reportar una vulnerabilidad m
 
 ## Ejecución
 
+La recuperación local de una contraseña olvidada se documenta en docs/RECUPERAR_ACCESO.md. Exige API detenida, cuenta administradora activa, entrada oculta y hash Argon2id. No ofrece un endpoint de reset sin autenticación ni exporta credenciales. El comando del acceso inicial verifica que ese acceso siga vigente antes de mostrarlo.
+
 Usar una cuenta de BD con los permisos mínimos del módulo; no usar SYS, sa ni cuentas propietarias como conexión de la aplicación. La API consulta permisos en cada operación y el frontend no conecta a las bases. Las contraseñas de aplicación se almacenan con Argon2id; las cookies son HttpOnly/SameSite y los tokens se revocan al cerrar sesión o cambiar contraseña.
 
 El pool de la API requiere `SQLSERVER_AUTH=sql`. La modalidad Windows de los diagnósticos no equivale a soporte Windows en el pool. Configurar cifrado y certificados válidos según el entorno. El modo local puede usar un certificado de desarrollo confiado explícitamente; no trasladar esa excepción a un despliegue público.

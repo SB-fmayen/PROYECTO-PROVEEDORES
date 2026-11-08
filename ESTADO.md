@@ -2,12 +2,15 @@
 
 ## Actualización de entrega
 
+- Perfiles de prueba creados: consulta_cpp (9 módulos de lectura), operador_cpp (7 módulos, creación/edición de 6), tesoreria_cpp (8 módulos, creación/edición de 3), auditor_cpp (11 módulos de lectura). Ninguno administra seguridad o elimina. Cuatro roles y perfiles nuevos de aplicación, sin DDL ni logins de BD. Admin conserva su contraseña y sus 69 permisos.
+- test:profiles aprobó 288 comprobaciones de autorización, cuatro logins por red, módulos/resumen, logout y escrituras reales temporales de operador y Tesorería. Los dos fixtures se retiraron conservando seis eventos de auditoría. Las cuentas de prueba permanecen. Credenciales solo como hashes en SQL y copia local cifrada; nunca Git. Matriz pública en docs/PERFILES_DE_PRUEBA.md. Sigue pendiente la revisión visual con el usuario.
+
 - Schema SQL completado: el usuario aplicó 040 v2 desde SSMS tras simulación correcta. Siete tablas reales en SEGURIDAD_PROVEEDORES, dueño ADMIN_SEGURIDAD_PROVEEDORES, siete PK, seis FK y mismos object_id. Verificados 35 grants de roles y 69 permisos efectivos del administrador de aplicación. Los siete módulos conservan sus conteos y no exponen hashes. `.env` local y MER SQL actualizados al destino real. La cuenta CRUD conserva sus privilegios limitados.
 
 - Carga académica autorizada confirmada: RETENCION_ISR 10, CONTRASENA_PAGO 10, DOCUMENTO_POR_LIQUIDAR 10 y ASIENTO_CONTABLE 20. Los 50 registros tienen auditoría de INSERT en la misma transacción. Documentos y pagos del mismo proveedor; asientos DEMO balanceados. Manifiesto y snapshots solo en .local, fuera de Git. Sin cambios en tablas originales, PK/FK, usuarios o permisos.
 - SQL de inserción y validación en database/oracle; herramienta db:seed:academic con vista previa, rechazo de recarga y rollback limitado a filas propias no modificadas. Detalles en docs/CARGA_ACADEMICA.md.
 - MER finales generados y revisados visualmente en PDF/SVG: 11 tablas y 11 FK Oracle; 7 tablas y 6 FK SQL Server. Fuentes DOT/Mermaid y catálogo de estructura incluidos en docs/mer/final.
-- Validación de código vigente: 26 pruebas aprobadas, build correcto, conexiones e inspecciones correctas, once módulos Oracle consultados y secuencia accesible, escáner de publicación aprobado, npm audit de producción con cero vulnerabilidades reportadas.
+- Validación de código vigente: 28 pruebas aprobadas, build correcto, conexiones e inspecciones correctas, once módulos Oracle consultados y secuencia accesible, escáner de publicación aprobado, npm audit de producción con cero vulnerabilidades reportadas.
 - Guía docs/VALIDACION_POR_PERFILES.md preparada. La prueba visual de la UI y la demostración con los perfiles existentes quedan para la siguiente sesión solicitada por el usuario. Las pruebas integrales históricas del 04-11 no se presentan como repetidas hoy.
 - El requisito de schema y dueño SQL queda completado. El dueño de base es un usuario WITHOUT LOGIN, distinto de las cuentas de acceso de la aplicación.
 - El usuario confirma el Excel realizado como tarea anterior y pide omitirlo. DDL originales completos, reproducción en VM y evidencia de Canvas no se han verificado en esta carpeta. La revisión visual y con perfiles existentes sigue pendiente.

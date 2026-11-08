@@ -25,9 +25,12 @@
     "db:verify:oracle": "npm run compile:api && node .build/scripts/verify-oracle.js",
     "auth:bootstrap": "npm run compile:api && node .build/scripts/bootstrap-auth.js",
     "auth:credential": "npm run compile:api && node .build/scripts/show-initial-credential.js",
+    "auth:reset": "npm run compile:api && node .build/scripts/reset-app-password.js",
+    "auth:profiles": "npm run compile:api && node .build/scripts/seed-profile-accounts.js",
     "db:verify:transactions": "npm run compile:api && node .build/scripts/verify-transactions.js",
     "db:verify:core": "npm run compile:api && node .build/scripts/verify-transactions.js --core",
     "test:integral": "npm run compile:api && node .build/scripts/verify-integral.js",
+    "test:profiles": "npm run compile:api && node .build/scripts/verify-profile-accounts.js",
     "db:seed:academic": "npm run compile:api && node .build/scripts/seed-academic.js",
     "security:scan": "node scripts/publication-files.mjs"
   },

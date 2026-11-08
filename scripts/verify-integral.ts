@@ -70,7 +70,7 @@ try {
   const seedTransaction = new sql.Transaction(security);
   await seedTransaction.begin();
   try {
-    await new sql.Request(seedTransaction).input('login', sql.VarChar(50), 'must-not-be-created').input('hash', sql.VarChar(255), adminRecord.recordset[0].PASSWORD_HASH).query(await readFile('database/sqlserver/seed/020_initial_admin.sql', 'utf8'));
+    await new sql.Request(seedTransaction).input('login', sql.VarChar(50), 'must-not-be-created').input('hash', sql.VarChar(255), adminRecord.recordset[0].PASSWORD_HASH).query(securitySql(security, await readFile('database/sqlserver/seed/020_initial_admin.sql', 'utf8')));
     assert.fail('La inicialización no debe reemplazar cuentas existentes.');
   } catch (error) { assert.equal((error as { number: number }).number, 51000); }
   finally { await seedTransaction.rollback(); }
